@@ -18,71 +18,25 @@ Si vous ne l'avez pas installé pendant la configuration initiale du projet, vou
 
 Créez un dossier `src/router` et un fichier `router/index.js` qui contiendra la configuration du routeur. Le fichier `main.js` devra être modifié pour déclarer ce nouveau routeur dans l'application:
 
-<VueVersionSwitch slotKey="install-router" />
-
-::: slot install-router-vue2
-```bash
-npm install vue-router@3
-```
-
-```js{4,9}
-import RouterPlugin from "vue-router";
-import router from "./router";
-
-Vue.use(RouterPlugin)
-
-new Vue({
-  render: h => h(App),
-  pinia,
-  router
-}).$mount("#app");
-```
-:::
-
-::: slot install-router-vue3
 ```bash
 npm install vue-router@4
 ```
 
 ```js{5}
+...
 import router from "./router";
+...
 
 createApp(App)
-  .use(pinia)
 	.use(router)
 	.mount("#app")
 ```
-:::
+
 
 ## Configuration du routeur
 
 Le routeur est créé en prenant en paramètres un ensemble de routes. Chaque route associe un pattern d'URL à un certain composant. Au chargement de la page, ou à chaque changement d'URL, le routeur va résoudre quelle route est associée à cette nouvelle URL.
 
-<VueVersionSwitch slotKey="router-config" />
-
-::: slot router-config-vue2
-```js
-/** src/router/index.js **/
-import Router from "vue-router";
-
-import HelloWorld from "@/components/HelloWorld";
-
-const router = new Router({
-  mode: 'history',
-  routes: [
-    {
-      path: "/hello/:name",
-      name: "hello",
-      component: HelloWorld
-    }
-  ]
-});
-
-export default router;
-```
-:::
-
-::: slot router-config-vue3
 ```js
 /** src/router/index.js **/
 import { createRouter, createWebHistory } from 'vue-router'
@@ -101,7 +55,6 @@ const router = createRouter({
 
 export default router;
 ```
-:::
 
 Une fois la résolution de la route terminée, un composant a été associé à l'URL en cours. Ce composant est alors injecté à la place de l'élément `<router-view />`. Cet élément est généralement placé dans le composant racine `App.vue`. Les éléments autour de `<router-view />` forment le layout structurant votre application : un header, une barre de navigation, un footer etc.
 
@@ -148,17 +101,15 @@ this.$route // pointe vers router.currentRoute
 
 1. Si ce n'est pas déjà fait, installez vue-router sur votre projet en suivant les instructions ci-dessus. Ajoutez l'élément `<router-view>` dans `App.vue` puis créez le fichier `src/router/index.js` pour commencer à configurer les routes.
 
-2. Ajouter une route `/login` reliée à la view `LoginForm` et une route `/search` reliée à `SearchFilm`.
+2. Ajouter une route `/login` reliée à la view `LoginForm` (créer le composant vide pour le moment) et une route `/search` reliée à `SearchFilm`.
 
 ::: tip
 Par convention, on appelle les composants rattachés à des routes des _views_, et on les place généralement dans le dossier `src/views` plutôt que `src/components`.
 :::
 
-3. Ajoutez à la configuration des routes des redirections vers la route `/search` pour la route par défaut (`/`) et pour toutes les autres routes non reconnues (`*` pour Vue 2, `/:pathMatch(.*)*` pour Vue 3) :
+1. Ajoutez à la configuration des routes des redirections vers la route `/search` pour la route par défaut (`/`) et pour toutes les autres routes non reconnues ( `/:pathMatch(.*)*`) :
 
-<VueVersionSwitch slotKey="router-catch-all-route" />
 
-::: slot router-catch-all-route-vue3
 ```js
 {
   path: "/",
@@ -169,23 +120,9 @@ Par convention, on appelle les composants rattachés à des routes des _views_, 
   redirect: "/search"
 }
 ```
-:::
 
-::: slot router-catch-all-route-vue2
-```js
-{
-  path: "/",
-  redirect: "/search",
-},
-{ 
-  path: '*', 
-  redirect: "/search"
-}
-```
-:::
+1. A l'aide de la documentation de [vue-router](https://router.vuejs.org/api/), remplacez la bascule entre `LoginForm` et `SearchFilm` à base de `v-if` par une navigation d'une route à une autre avec `<router-view>`.
 
-4. A l'aide de la documentation de [vue-router](https://router.vuejs.org/api/), remplacez la bascule entre `LoginForm` et `SearchFilm` à base de `v-if` par une navigation d'une route à une autre avec `<router-view>`.
+2. Naviguez programmatiquement vers la route `/search` après l'action de login, et vers la route `/login` après l'action de logout. Vérifiez que les transitions entre les pages et les changements d'URL fonctionnent correctement.
 
-5. Naviguez programmatiquement vers la route `/search` après l'action de login, et vers la route `/login` après l'action de logout. Vérifiez que les transitions entre les pages et les changements d'URL fonctionnent correctement.
-
-6. **Bonus** : en utilisant les [Navigation Guards](https://router.vuejs.org/guide/advanced/navigation-guards.html) de vue-router, redirigez l'utilisateur voulant accéder à la page de recherche de films vers `/login` si l'utilisateur n'est pas authentifié.
+3. **Bonus** : en utilisant les [Navigation Guards](https://router.vuejs.org/guide/advanced/navigation-guards.html) de vue-router, redirigez l'utilisateur voulant accéder à la page de recherche de films vers `/login` si l'utilisateur n'est pas authentifié.
