@@ -17,14 +17,7 @@ Nous vous conseillons [Visual Studio Code](https://code.visualstudio.com/), un �
 
 VS Code dispose de nombreuses extensions pour enrichir l'éditeur. Pour le développement avec Vue.js, nous vous recommandons ces extensions qui fournissent de la coloration syntaxique et de l'autocomplétion pour les fichiers de composants Vue:
 
-<VueVersionSwitch slot-key="vscode-extension" />
-::: slot vscode-extension-vue2
-Pour Vue 2, utilisez cette extension: [Vetur](https://marketplace.visualstudio.com/items?itemName=octref.vetur)
-:::
-
-::: slot vscode-extension-vue3
 Pour Vue 3, utilisez cette extension: [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar)
-:::
 
 ### Vue Devtools
 
@@ -58,23 +51,11 @@ Toutefois, ce mode d'utilisation trouve rapidement ses limites, et l'outillage d
 
 ## TP : Création de votre premier projet
 
-Vous pouvez utiliser au choix **Vue 2** ou **Vue 3** pour cette formation.
-
 Placez-vous dans votre répertoire de travail et créez un projet appelé `search-films` en lançant la commande :
 
-<VueVersionSwitch slotKey="npm-init" />
-
-::: slot npm-init-vue3
 ```bash
 npm init vue@latest
 ```
-:::
-
-::: slot npm-init-vue2
-```bash
-npm init vue@2
-```
-:::
 
 **search-films** étant le nom du répertoire dans lequel nous allons initier notre projet.
 
@@ -114,7 +95,7 @@ npm run dev
 
 Votre application sera alors accessible sur [localhost:3000](http://localhost:3000/) (port par défaut si disponible).
 
-Dans **Visual Studio Code**, ouvrez le dossier de votre projet puis naviguez dans les différents fichiers pour vous approprier l'arborescence du projet.
+Dans **PHPStorm ou Webstorm** ou **Visual Studio Code** , ouvrez le dossier de votre projet puis naviguez dans les différents fichiers pour vous approprier l'arborescence du projet.
 
 ### Build pour la production
 

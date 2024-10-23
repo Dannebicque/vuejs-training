@@ -14,7 +14,7 @@ Permet de lier (*bind*) à une variable la valeur d'une propriété d'un éléme
 
 **Exercice : essayez de lier les attributs `src` et `width` de l'image**
 
-```vue live
+```vue
 <template>
 <h1>
     I {{likesVue ? "love" : "hate"}}
@@ -22,16 +22,10 @@ Permet de lier (*bind*) à une variable la valeur d'une propriété d'un éléme
 </h1>
 </template>
 
-<script>
-export default {
-  data(){
-    return {
-      likesVue: true,
-      logo: 'https://vuejs.org/images/logo.png',
-      logoWidth: 50
-    }
-  }
-}
+<script setup>
+const likesVue = true
+const logo = 'https://vuejs.org/images/logo.png'
+const logoWidth = 50
 </script>
 ```
 
@@ -55,7 +49,7 @@ Plusieurs syntaxes sont proposées pour assigner des classes ou des styles CSS :
 
 [ghosts.css](https://raw.githubusercontent.com/moshifr/vuejs-training/main/docs/fr/directives/ghosts.css)
 
-```vue live
+```vue
 <template>
 <ol>
   <li>
@@ -76,18 +70,15 @@ Plusieurs syntaxes sont proposées pour assigner des classes ou des styles CSS :
 <script>
 import "./ghosts.css";
 
-export default {
-  data(){
-    return {
-      ghost1: {
+const ghost1: {
         anim: "joyful",
         style: "color: red"
-      },
-      ghost2: {
+      }
+const ghost2 = {
         anim: { jelly: true },
         style: { color: "green" }
-      },
-      ghost3: {
+      }
+const ghost3 = {
         isWobbly: true,
         isBlue: true
       }
@@ -101,19 +92,37 @@ export default {
 
 Permet de lier la valeur d'un champ de formulaire à une donnée du composant. C'est une liaison à double-sens, c'est-à-dire que la variable se met à jour quand le contenu du champ change (typiquement par l'utilisateur) et réciproquement.
 
-```html{3}
+::: warning
+
+Petite contrepartie de l'écriture en Composition Api en VueJs 3, les variables ne sont pas nativement réactive. C'est à dire qu'elles ne seront pas mises à jour par des modifications en lien, par exemple avec le v-model. Il faut définir les variables qui doivent être réactive avec la fonction `ref` de VueJs. Cela permet une meilleure optimisation du code en ne définissant réactif que ce qui doit l'être.
+
+:::
+
+```vue
+<template>
 <label>
   What is your name ?
   <input v-model="name">
 </label>
 
 <p>Hello {{ name }} !</p>
+</template>
+
+<script setup>
+
+import { ref } from 'vue'
+
+const name = ref('')
+
+</script>
 ```
+
 <v-model-example />
+
 
 **Exercice : utilisez v-model sur les input, select, radio et checkbox**
 
-```vue live
+```vue
 <template>
 <div id="icecream-store">
   <h1>Icecream store</h1>
@@ -141,20 +150,16 @@ Permet de lier la valeur d'un champ de formulaire à une donnée du composant. C
 
 <style>label { display: block }</style>
 
-<script>
+<script setup>
+
+import { ref } from 'vue';
 import IceCreams from "./IceCreams.vue";
 
-export default {
-  components: { IceCreams },
-  data(){
-    return {
-      quantity: 1,
-      flavour: "#5B2F00",
-      size: 150,
-      napkin: true
-    }
-  }
-}
+const quantity = ref(1);
+const flavour = ref("#5B2F00");
+const size = ref(150);
+const napkin = ref(true);
+
 </script>
 ```
 
@@ -183,7 +188,7 @@ Les directives `v-else-if` et `v-else` fonctionnent de la même façon que leur 
 
 **Exercice : utilisez v-if, v-else et v-else-if pour alterner les visages selon la température**
 
-```vue live
+```vue
 <template>
 <div>
   <input type="range" min="0" max="40" v-model="temperature" />
@@ -194,12 +199,9 @@ Les directives `v-else-if` et `v-else` fonctionnent de la même façon que leur 
 </div>
 </template>
 
-<script>
-export default {
-  data(){
-    return { temperature: 20 }
-  }
-}
+<script setup>
+import { ref } from 'vue';
+const temperature = ref(20)
 </script>
 ```
 
@@ -228,25 +230,19 @@ Ce n'est pas obligatoire mais aide Vue à mieux comprendre les changements qui s
 <!-- todos: [ { label: 'See list transitions', done: false },
               { label: 'Learn Vue', done: false },
               { label: 'Use v-for', done: true }, ... ] -->
-              <script>
-              
-<script>
-export default {
-    data(){
-        return {
-            todos: [
+                            
+<script setup>
+import { ref, computed } from 'vue';
+
+const todos = ref([
               { label: 'See list transitions', done: false },
               { label: 'Learn Vue', done: false },
               { label: 'Use v-for', done: true }
-            ]
-        }
-    },
-    computed: {
-      todos_after_sort(){
-        return this.todos.sort((a,b) => +a.done - b.done)
-      }
-    }
-}
+            ])
+
+const todos_after_sort = computed(() => {
+  return todos.value.sort((a, b) => +a.done - b.done);
+});
 </script>
 
 <template>
@@ -272,7 +268,7 @@ Pour répéter un groupe d'éléments, utiliser `v-for` sur une balise `<templat
 
 **Exercice : utilisez deux boucles v-for pour afficher tout le contenu du panier**
 
-```vue live
+```vue
 <template>
 <div id="basket">
   <h1>In my basket:</h1>
@@ -289,19 +285,13 @@ Pour répéter un groupe d'éléments, utiliser `v-for` sur une balise `<templat
 li { list-style: none; font-size: 2rem; }
 </style>
 
-<script>
-export default {
-  data() {
-    return {
-       basket: [
+<script setup>
+cosnt basket = [
         { type: '🍌', quantity: 2 },
         { type: '🍎', quantity: 4 },
         { type: '🍒', quantity: 6 },
         { type: '🍉', quantity: 1 },
       ]
-    }
-  }
-}
 </script>
 ```
 
@@ -325,7 +315,7 @@ Vous pouvez utiliser la variable `$event` comme référence à l'événement cap
 
 **Exercice : utilisez les événements pour ajouter un singe au clic sur bouton, et leur faire ouvrir les yeux au passage de la souris**
 
-```vue live
+```vue
 <template>
 <div>
   <span v-for="monkey in monkeys">
@@ -338,23 +328,21 @@ Vous pouvez utiliser la variable `$event` comme référence à l'événement cap
 
 <style>span { font-size: 2rem; }</style>
 
-<script>
-export default {
-  data(){
-    return {
-      monkeys: [
+<script setup>
+
+const monkeys =  ref([
         { hasEyesOpen: false }
-      ]
-    }
-  },
-  methods: {
-    addMonkey(){
-      this.monkeys.push({ hasEyesOpen: false })
-    }
-  }
+      ])
+
+addMonkey(){
+  this.monkeys.value.push({ hasEyesOpen: false })
 }
 </script>
 ```
+
+::: warning
+Vous noterez ici l'usage de this.monkey.value pour accéder à la variable réactive. En effet, dans le contexte de VueJs 3, les variables réactives sont encapsulées dans un objet qui contient la propriété value.
+:::
 
 ### Modificateurs
 
@@ -376,10 +364,11 @@ Les modificateurs sont des suffixes permettant de modifier légèrement le compo
 
 ## TP : Fiche d'un film
 
-1. Sur le formulaire d'authentification, ajoutez deux variables `email` et `password` dans l'option `data` du composant et utilisez la directive `v-model` sur les champs email et password pour les lier.
+1. Sur le formulaire d'authentification, ajoutez deux variables (réactives) `email` et `password` dans le composant et utilisez la directive `v-model` sur les champs email et password pour les lier.
 2. Ajoutez une autre variable `loggedIn` initialement à `false`, puis utilisez la directive `v-on` pour l'assigner à `true` à la soumission du formulaire.
 3. Modifier le comportement par défaut de l'évènement `submit` du formulaire d'authentification afin d'éviter le rechargement de la page.
 4. Dans `LoginForm.vue`, ajoutez le HTML suivant sous le formulaire d'authentification :
+
 ```html
 <ul class="films">
   <li class="film card">
@@ -399,8 +388,10 @@ Les modificateurs sont des suffixes permettant de modifier légèrement le compo
   </li>
 </ul>
 ```
-5. Utilisez les directives `v-if` et `v-else` pour afficher le formulaire d'authentification et cacher la liste des films quand `loggedIn === false`, et réciproquement.
-6. Ajoutez la variable suivante dans l'option `data` du composant :
+
+1. Utilisez les directives `v-if` et `v-else` pour afficher le formulaire d'authentification et cacher la liste des films quand `loggedIn === false`, et réciproquement.
+2. Ajoutez la variable suivante dans le composant :
+
 ```js
 films: [
   {
@@ -432,6 +423,7 @@ films: [
   }
 ]
 ```
-7. A l'aide de la directive `v-for`, répétez l'élément `.film.card` pour afficher autant de films que contient la liste `films`
-8. Complétez les données des cartes par celle de chaque film en utilisant les directives et l'interpolation
-9. **Bonus :** la propriété `metascore` est une chaîne de caractères pouvant prendre la valeur `"N/A"`, ou un entier entre `"0"` et `"100"`. Servez-vous en pour afficher, quand c'est possible, de 1 à 5 étoiles à côté du titre de chaque film.
+
+1. A l'aide de la directive `v-for`, répétez l'élément `.film.card` pour afficher autant de films que contient la liste `films`
+2. Complétez les données des cartes par celle de chaque film en utilisant les directives et l'interpolation
+3. **Bonus :** la propriété `metascore` est une chaîne de caractères pouvant prendre la valeur `"N/A"`, ou un entier entre `"0"` et `"100"`. Servez-vous en pour afficher, quand c'est possible, de 1 à 5 étoiles à côté du titre de chaque film.

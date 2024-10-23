@@ -12,9 +12,9 @@
     "deploy": "node ./docs/deploy.js"
   },
   "dependencies": {
-    "vuepress": "^1.7.1",
-    "vuepress-plugin-global-toc": "^1.1.0",
-    "vuepress-plugin-live": "^1.6.2"
+    "@vuepress/shared-utils": "^1.9.10",
+    "vuepress": "^1.0",
+    "vuepress-plugin-global-toc": "^1.1.0"
   },
   "devDependencies": {
     "shelljs": "^0.8.5"

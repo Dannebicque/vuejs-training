@@ -23,4 +23,4 @@ This training is also available in [French](/fr/) / Cette formation est aussi di
 
 ## Table of contents
 
-<GlobalTableOfContents />
+[[toc]]

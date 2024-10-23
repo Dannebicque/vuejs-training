@@ -28,8 +28,29 @@ Par la suite, vous pourrez être amenés à créer d'autres dossiers dans `src` 
 - Un composant correspond à un fichier `.vue`
 - Un fichier `.vue` se compose de trois éléments optionnels :
     - la balise `<template>` contient le code HTML du composant
-    - la balise `<script>` (optionnelle) contient le code JavaScript du composant
+    - la balise `<script setup>` (optionnelle) contient le code JavaScript du composant
+      - La mention setup permet d'utiliser la syntaxe Composition API. Sans cette mention, on utilise la syntaxe Options API par défaut.
     - la balise `<style>` (optionnelle) contient le style CSS du composant
+
+```vue
+<template>
+  <div>
+    <span>Hello {{who}}</span>
+  </div>
+</template>
+
+<script setup>
+const who = 'world'
+</script>
+
+<style scoped>
+span {
+  color: blue;
+}
+</style>
+```
+
+La version en Option API du même composant :
 
 ```vue
 <template>
@@ -40,9 +61,9 @@ Par la suite, vous pourrez être amenés à créer d'autres dossiers dans `src` 
 
 <script>
 export default {
-  data () {
+  data() {
     return {
-      who: 'World'
+      who: 'world'
     }
   }
 }
@@ -52,10 +73,17 @@ export default {
 span {
   color: blue;
 }
+
 </style>
 ```
 
-La partie script du composant doit exporter par défaut un objet avec les propriétés du composant. On retrouve ici la propriété `data` qui spécifie les données initiales du composant. Les autres propriétés seront abordées dans la section Composants.
+Vous noterez que la syntaxe est plus concise avec la syntaxe Composition API, et que le code est plus facile à structurer et à lire.
+
+::: tip
+
+Par la suite nous n'évoquerons que la syntaxe par Composition Api, mais la document de vueJs est très bien faite et vous permettra de vous familiariser avec la syntaxe par Options API avec dans la majorité des cas une traduction directe entre les deux.
+
+:::
 
 ## Travailler en composants
 
@@ -73,27 +101,17 @@ Pour relier les composants entre eux, on déclare les composants enfants dans le
   </div>
 </template>
 
-<script>
+<script setup>
 import MonComposantEnfant from './MonComposantEnfant.vue'
-
-export default {
-  components: {
-    MonComposantEnfant
-  }
-}
 </script>
 ```
-
-::: tip
-L'option `components` dans la partie script du composant. Les composants enfants utilisés dans le template sont déclarés ainsi pour rendre explicite les liens de dépendance et aider à éliminer le code mort. Mais il est également possible de déclarer des composants globalement sur votre application Vue, afin de pouvoir les utiliser partout sans avoir à les déclarer manuellement.
-:::
 
 Dans votre projet Vue, ouvrez le fichier `App.vue` et observez comment le composant `HelloWorld` a été intégré au composant racine `App`.
 
 ## Interpolation de texte dans les templates
 
 ::: v-pre
-Le moyen le plus simple d'insérer des données dynamiquement dans vos composants est par interpolation de texte, au moyen de la syntaxe `{{maVariable}}`. A l'intérieur des doubles accolades, vous pouvez indiquer n'importe quelle expression JavaScript valide :
+Le moyen le plus simple d'insérer des données dynamiquement dans vos composants est par interpolation de texte, au moyen de la syntaxe `{{ maVariable }}`. A l'intérieur des doubles accolades, vous pouvez indiquer n'importe quelle expression JavaScript valide :
 :::
 
 ```vue
@@ -101,15 +119,9 @@ Le moyen le plus simple d'insérer des données dynamiquement dans vos composant
   <p>Commande ref. {{ referenceCommande }} - Total : {{ prix.toFixed(2)+'€' }}</p>
 </template>
 
-<script>
-  export default {
-    data(){
-      return {
-        referenceCommande: 'ABCXYZ',
-        prix: 17.3
-      }
-    }
-  }
+<script setup>
+const referenceCommande = 'ABCXYZ'
+const prix = 17.3
 </script>
 ```
 
@@ -141,6 +153,6 @@ Le projet Vue a été initialisé avec des composants et des styles existants da
 </div>
 ```
 
-3. Supprimez le contenu existant du template du composant `App.vue`, et affichez le composant `LoginForm.vue` à la place avec `<LoginForm />`. Vous devrez également déclarer `LoginForm` dans l'option `components` du composant `App`.
+1. Supprimez le contenu existant du template du composant `App.vue`, et affichez le composant `LoginForm.vue` à la place avec `<LoginForm />`. N'oubliez pas d'importer le composant.
 
-4. Complétez le fichier `LoginForm.vue` pour déclarer une option `data` contenant une propriété `title`. Utiliser ensuite l'interpolation de texte dans le template pour passer le titre du formulaire *"Authentification"* en utilisant cette variable `title`.
+2. Complétez le fichier `LoginForm.vue` pour déclarer une variable `title`. Utiliser ensuite l'interpolation de texte dans le template pour passer le titre du formulaire *"Authentification"* en utilisant cette variable `title`.

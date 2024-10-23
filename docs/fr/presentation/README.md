@@ -32,14 +32,18 @@ Vue.js a battu des records en termes de hausse de popularité depuis 2015. Il s'
 
 Le secret de son succès ? Rien de révolutionnaire : un focus sur la simplicité, une courbe d'apprentissage très faible, une excellente documentation et une communauté à l'écoute.
 
-![Evolution des stars Github entre React, Vue et Angular](../../assets/popularite.jpg)
+![Evolution des stars Github entre React, Vue et Angular](https://user-images.githubusercontent.com/643434/246594661-adb3005a-a7e7-48a3-8c42-5728678a8645.png)
+
+Source [Github](https://gist.github.com/tkrotoff/b1caa4c3a185629299ec234d2314e190)
 
 ## Comparaison avec les autres frameworks
+
 Tâchons de comparer Vue avec les deux autres frameworks JS les plus populaires, React et Angular.
 
 ![React, Vue et Angular](../../assets/react-vue-angular.jpg)
 
-### Points communs entre ces 3 frameworks:
+### Points communs entre ces 3 frameworks
+
 - Très populaires, utilisé par de grosses entreprises
 - Matures, stables, support à long terme financé
 - Codebase orientée composants
@@ -57,7 +61,7 @@ React, Vue et Angular se positionnent dans des catégories différentes et cela 
 |---------------|-------------|------------------|---------------|
 Langage         |	JSX*    | JSX et TypeScript en option	| TypeScript* |
 Paradigme       | Favorise la prog fonctionnelle | Favorise la prog déclarative	| Mélange prog déclarative orientée classes et prog fonctionnelle (RxJS) |
-Gestion d'état	| State centralisé non mutable (Flux) |	State centralisé en option (Vuex), sinon interne et mutable	| State interne et mutable, pas de state centralisé officiel |
+Gestion d'état	| State centralisé non mutable (Flux) |	State centralisé en option (Vuex ou Pinia), sinon interne et mutable	| State interne et mutable, pas de state centralisé officiel |
 Gestion de la réactivité | Manuelle (`setState` + VDOM diffing) | Automatique (observers/Proxies) | Automatique (Zones/dirty-checking) |
 Stack |	Ne se suffit pas à lui-même, à intégrer dans une stack web avec d’autres outils en externe. Écosystème riche. |	Quelques outils officiels maintenus par la team Vue, d’autres à chercher en externe. Promeut des solutions tierces si elles sont appropriées.	| Framework full stack et auto-suffisant, avec options de sécurité incluses nativement. Complet mais plus fermé. |
 
@@ -98,23 +102,12 @@ Stack |	Ne se suffit pas à lui-même, à intégrer dans une stack web avec d’
 </div>
 </div>
 
-
 ### Vue 3 ou Vue 2 ?
 
-La version 3.0 du coeur de Vue a été publiée officiellement le 18 Septembre 2020, mais cela prendra plusieurs années de migrer l'ensemble de l'écosystème de Vue 2. Puisque l'API est relativement stable entre Vue 2 et Vue 3, nous avons décidé de proposer cette formation pour à la fois Vue 2 et Vue 3. Vous pouvez basculer à tout moment en cliquant sur ce switch:
+La version 3.0 du coeur de Vue a été publiée officiellement le 18 Septembre 2020, mais cela prendra plusieurs années de migrer l'ensemble de l'écosystème de Vue 2. Puisque l'API est relativement stable entre Vue 2 et Vue 3.
 
-<VueVersionSwitch slotKey="presentation" />
+Cette formation est proposée en version Vue 3. Vue 3 apporte deux syntaxes de rendu, le rendu "classique" (Option API) et le rendu par composition (Composition API).
 
-::: slot presentation-vue2
-::: tip
-Le contenu de la formation sera présenté pour notre bon vieux Vue 2 !
-:::
+La version Option API permet une compatibilité avec les versions précédentes de Vue, tandis que la Composition API est plus flexible et permet de mieux structurer le code.
 
-::: slot presentation-vue3
-::: tip
-Le contenu de la formation sera présenté pour le tout nouveau Vue 3 !
-:::
-
-Nous vous recommandons de choisir:
-- Vue 2 si vous comptez travailler sur un projet déjà existant
-- Vue 3 si vous démarrez un tout nouveau projet
+L'ensemble du cours est rédigé en vueJS 3, en mode composition API.
