@@ -1,32 +1,29 @@
 # Composants
 
-Jusqu'ici, vous avez vu les options `components` et `data` pour un composant. Nous allons aborder dans cette section toutes les autres.
+Jusqu'ici nous avons utilisé des composants sans forcément en comprendre toute la structure et les "paramètrages". Nous allons détailler ces points ici.
 
 ## Méthodes
+
 Les méthodes du composant sont déclarées dans la propriété `methods`. Elles peuvent alors être appelées depuis une expression dans le template ou depuis une autre méthode du composant avec `this.maMethode()`.
 
 ```vue{2,11,14}
 <template>
   <button @click="greet">Greet</button>
 </template>
-<script>
-export default {
-  data() {
-    return  {
-      name: 'Mark'
-    }
-  },
-  methods: {
-    greet: function (event) {
-      // 'this' pointe vers l'instance de vue
-      this.say('Hi '+ this.name)
-    },
-    say(message){
-      // si une méthode est indépendante de l'instance (pas de référence à 'this')
-      // alors il peut être pertinent de l'externaliser dans un module à part
-      alert(message + '!')
-    }
-  }
+<script setup>
+import { ref } from 'vue'
+
+const name = ref('Mark')
+
+const greet = (event) => {
+  // 'this' n'est plus utilisé, on accède directement aux variables et fonctions
+  say('Hi ' + name.value)
+}
+
+const say = (message) => {
+  // si une méthode est indépendante de l'instance (pas de référence à 'this')
+  // alors il peut être pertinent de l'externaliser dans un module à part
+  alert(message + '!')
 }
 </script>
 ```
@@ -39,27 +36,18 @@ Une propriété calculée est une donnée pouvant être calculée directement et
 
 Vue permet également de déclarer des observateurs pour exécuter une certaine fonction lorsqu'une propriété (prop, data ou computed) est mutée. On parle alors de **propriété observée** par un *watcher*. Les propriétés à observer sont à déclarer dans l'option `watch` du composant.
 
-```js{10,15}
-var vm = new Vue({
-  el: "#app",
-  data(){
-    return {
-      count1: 0,
-      count2: 0,
-      lastUpdate: null
-    }
-  },
-  computed: {
-    total () {
-      return this.count1 + this.count2
-    }
-  },
-  watch: {
-    total () {
-      this.lastUpdate = new Date()
-    }
-  }
-})
+```vue
+  import { ref, computed, watch } from 'vue'
+
+  const count1 = ref(0)
+  const count2 = ref(0)
+  const lastUpdate = ref(null)
+
+  const total = computed(() => count1.value + count2.value)
+
+  watch(total, () => {
+    lastUpdate.value = new Date()
+  })
 ```
 
 Pour distinguer les cas d'usage computed vs watcher, on privilégiera le plus souvent les propriétés calculées lorsque c'est possible. Un watcher est plus approprié quand ce qui vous intéresse lors d'une mutation n'est pas tant la nouvelle valeur, mais **le moment où elle survient** ; pour effectuer des requêtes serveur ou des actions externes à Vue par exemple.
@@ -95,26 +83,20 @@ Pour distinguer les cas d'usage computed vs watcher, on privilégiera le plus so
 
 Vue travaille avec les composants suivant un schéma bien précis, de leur création jusqu'à leur destruction en passant par les mises à jour de données et leur insertion dans le DOM. Voici le schéma complet :
 
-<VueVersionSwitch slotKey="lifecycle" />
-
-::: slot lifecycle-vue2
-![Vue Lifecycle](../../assets/vue2_lifecycle_fr.png)
-:::
-
-::: slot lifecycle-vue3
 ![Vue Lifecycle](../../assets/vue3_lifecycle_fr.svg)
-:::
 
 Chaque étape du cycle de vie d'un composant appelle deux fonctions callback, l'une juste avant que le framework intervienne, et l'autre juste après. On peut via ces callbacks définir un comportement spécifique pour le composant à ces moments précis :
 
-```js{2}
-export default {
-  mounted () {
-    console.log(`Le composant a été inséré dans le DOM,
-        this.$el pointe vers l'élément correspondant.`)
-    this.$el.querySelector('input').focus()
-  }
-}
+```vue
+import { onMounted, ref } from 'vue'
+
+const inputRef = ref(null)
+
+onMounted(() => {
+  console.log(`Le composant a été inséré dans le DOM,
+    inputRef.value pointe vers l'élément correspondant.`)
+  inputRef.value.focus()
+})
 ```
 
 Typiquement, on utilise `created` comme l'équivalent d'une fonction constructeur, pour initialiser certaines données ou lancer des requêtes HTTP. On utilise `mounted` lorsque certaines étapes à l'initialisation nécessitent d'interagir avec le DOM. Enfin, on utilise `destroyed` (`unmounted` avec Vue 3) pour faire le ménage lorsque le composant n'est plus utilisé, par exemple supprimer des event listeners globaux pour éviter des fuites mémoire. Les autres callbacks sont réservés à des cas d'usage plus spécifiques.
@@ -140,10 +122,13 @@ Vous devez déclarer dans l'option `props` du composant la liste des propriété
   </article>
 </template>
 
-<script>
-export default {
-  props: ['title','content']
-}
+<script setup>
+import { defineProps } from 'vue'
+
+const props = defineProps({
+  title: String,
+  content: String
+})
 </script>
 ```
 
@@ -157,21 +142,21 @@ export default {
 Facultativement, vous pouvez indiquer le type des props ou fournir des options de validation. Vue rejettera les valeurs non valides avec des messages d'erreur explicites, ce qui s'avère utile lorsque l'on utilise des composants d'origine tierce. Pour plus d'informations sur les options acceptées, [se référer à la documentation](https://vuejs.org/guide/components/props.html).
 
 ```vue
-<script>
-export default {
-  props: {
-    propA: Number, // null matches any type
-    propB: [String, Number], // multiple valid types
-    propC: {
-      type: String,
-      default: "test"
-    },
-    propD: {
-      required: true,
-      validator: value => value.startsWith("_")
-    }
+<script setup>
+import { defineProps } from 'vue'
+
+const props = defineProps({
+  propA: Number, // null matches any type
+  propB: [String, Number], // multiple valid types
+  propC: {
+    type: String,
+    default: "test"
+  },
+  propD: {
+    required: true,
+    validator: value => value.startsWith("_")
   }
-}
+})
 </script>
 ```
 
@@ -196,19 +181,14 @@ Pour **écouter** un événement émis par un composant enfant, on utilise la m�
   </article>
 </template>
 
-<script>
-export default {
-  data () {
-    return {
-      comment: ''
-    }
-  },
-  emits: ['comment'],
-  methods: {
-    sendComment () {
-      this.$emit('comment', this.comment)
-    }
-  }
+<script setup>
+import { ref, defineEmits } from 'vue'
+
+const comment = ref('')
+const emit = defineEmits(['comment'])
+
+const sendComment = () => {
+  emit('comment', comment.value)
 }
 </script>
 ```
@@ -282,34 +262,6 @@ vm.$refs.enfant // reference à l'instance de ComposantEnfant
 4. **Bonus** : Essayez de retirer la déclaration initiale en liste vide de `films` dans les `data` de `SearchFilm`.
 
 **Question** : *Pourquoi la vue ne se met-elle plus à jour alors que la liste semble être remplie correctement ?*
-
-
-## API des composants Vue
-
-```js
-export default {
-  name: 'MonComposant', // pour aider lors du débogage
-  components: {}, // composants enfant déclarés
-  props: {}, // propriétés du composant
-  data() {}, // variables d'état du composant
-  computed: {}, // propriétés calculées
-  watch: {}, // propriétés observées
-  methods: {}, // méthodes
-  emits: [], // événements émis par ce composant
-  // hooks de cycle de vie du composant
-  beforeCreate() {},
-  created() {},
-  beforeMount() {},
-  mounted() {},
-  beforeUpdate() {},
-  updated() {},
-  activated() {},
-  deactivated() {},
-  beforeDestroy() {}, // beforeUnmount avec Vue 3
-  destroyed() {}, // unmounted avec Vue 3
-  errorCaptured() {},
-}
-```
 
 ### Propriétés d'instance de vue
 

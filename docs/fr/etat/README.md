@@ -28,31 +28,23 @@ export const state = {
 ```js
 /** LoginForm.vue **/
 import state from "stores/state.js"
+import { reactive } from 'vue'
 
-export default {
-  data: { state },
-  methods: {
-      login(){
-          this.state.user = "John Smith"
-          this.state.loggedIn = true
-      }
-  }
+const state = reactive({
+  user: null,
+  loggedIn: false
+})
+
+function login() {
+  state.user = "John Smith";
+  state.loggedIn = true;
 }
 ```
 
 ::: tip
-Notez qu'on a intentionnellement déclaré `data` comme un objet et non une fonction, afin que les instances du composant utilisent la même référence de données partagées.
 
-Cependant, on peut aussi tout à fait mélanger donnés locales et données partagées :
+Notez qu'on a intentionnellement déclaré state comme un objet reactive (ref faisant référence à des variables "simple") et non une fonction, afin que les instances du composant utilisent la même référence de données partagées.
 
-```js
-data(){
-  return {
-    sharedState: state,
-    privateState: { ... }
-  }
-}
-```
 :::
 
 Cette solution peut faire l'affaire dans de nombreux cas, mais montre rapidement ses limites au débogage lorsqu'un grand nombre de composants différents interagissent avec les données. En effet, les mutations des objets d'état ne sont tracées nulle part, il est donc difficile de trouver la source d'un bug.
@@ -81,28 +73,25 @@ export const store = {
 
 ```vue
 <!-- MyComponent.vue -->
-<script>
-import store from "@/stores/store.js"
+<script setup>
+import { store } from "@/stores/store.js"
+import { computed, reactive } from 'vue'
 
-export default {
-  data(){
-    return {
-      privateState: {},
-      store
-    }
-  },
-  computed: {
-    message(){
-      return this.store.get("message")
-    }
-  },
-  methods: {
-    exit(){
-      this.store.set("message", "bye!")
-    }
-  }
+const privateState = reactive({})
+
+const message = computed(() => store.get("message"))
+
+function exit() {
+  store.set("message", "bye!")
 }
 </script>
+
+<template>
+  <div>
+    <p>{{ message }}</p>
+    <button @click="exit">Exit</button>
+  </div>
+</template>
 ```
 
 ## Pinia
@@ -125,66 +114,43 @@ Les changements d'état mettent à jour de façon réactive et automatiques tout
 
 1. Installer les dépendances `pinia` and `pinia-plugin-persistedstate` qu'on utilisera pour persister l'état du store.
 
-<VueVersionSwitch slot-key="install-pinia" />
-
-::: slot install-pinia-vue2
-```bash
-npm install pinia pinia-plugin-persistedstate @vue/composition-api
-```
+::: tip
+Pinia comme VueJs propose deux types d'écriture : Option Stores (équivalent à Options API) et Setup Store (équivalent à Composition API). Pour ce cours, nous utiliserons la Setup Store.
 :::
 
-::: slot install-pinia-vue3
 ```bash
 npm install pinia pinia-plugin-persistedstate
 ```
-:::
 
-2. Créer un store Pinia en créant un fichier `src/stores/session.js` avec le contenu suivant :
+1. Créer un store Pinia en créant un fichier `src/stores/session.js` avec le contenu suivant :
 
 ```js
 import { defineStore } from "pinia";
+import { ref } from "vue";
 
-export const useSession = defineStore('session', {
-  persist: true,
-  state: () => {
-    return {
-      user: null,
-      loggedIn: false
-    }
-  },
-  actions: {
-    login({ user }) {
-      this.loggedIn = true
-      this.user = user
-    }
+export const useSession = defineStore('session', () => {
+  const user = ref(null);
+  const loggedIn = ref(false);
+
+  function login({ user: newUser }) {
+    loggedIn.value = true;
+    user.value = newUser;
   }
-})
+
+  return {
+    user,
+    loggedIn,
+    login
+  };
+}, {
+  persist: true
+});
 ```
 
 3. Déclarez le store dans votre application en complétant le fichier `main.js` comme ceci :
 
 <VueVersionSwitch slot-key="app-store" />
 
-::: slot app-store-vue2
-```js{10}
-import { createPinia, PiniaVuePlugin } from 'pinia'
-import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
-import VueCompositionAPI from '@vue/composition-api'
-
-Vue.use(VueCompositionAPI) // for Pinia and Vue 2 compat
-Vue.use(PiniaVuePlugin)
-
-const pinia = createPinia()
-pinia.use(piniaPluginPersistedstate)
-
-new Vue({
-  render: h => h(App),
-  pinia
-}).$mount('#app')
-```
-:::
-
-::: slot app-store-vue3
 ```js{8}
 import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
@@ -196,31 +162,10 @@ createApp(App)
   .use(pinia)
   .mount('#app')
 ```
-:::
 
-4. Dans le code de l'application, récupérez la donnée `loggedIn` depuis le store avec `useSession()`
+1. Dans le code de l'application, récupérez la donnée `loggedIn` depuis le store avec `useSession()`
 
-::: tip
-Les fonctions utilitaires `mapState` et `mapActions` fournies avec Pinia permettent d'abréger le code en reliant facilement une donnée du store à une propriété calculée d'un composant, ou un getter à une méthode.
-
-```js
-import { useSession } from "@/stores/session"
-import { mapState, mapActions } from "pinia";
-
-export default {
-    computed: {
-        // bind this.loggedIn to useSession().loggedIn
-        ...mapState(useSession, ["loggedIn"])
-    },
-    methods: {
-        // bind this.login to useSession().login  
-        ...mapActions(useSession, ["login"])
-    }
-}
-```
-:::
-
-5. Dans LoginForm.vue, lors du submit, vérifier si l'utilisateur a entré l'adresse mail `test@test.com` et le mot de passe `test1234`. Si c'est le cas, déclencher l'action `login` pour le user `test`.
+2. Dans LoginForm.vue, lors du submit, vérifier si l'utilisateur a entré l'adresse mail `test@test.com` et le mot de passe `test1234`. Si c'est le cas, déclencher l'action `login` pour le user `test`.
 
 :::tip
 Invoquer une action depuis un composant se fait en l'appelant comme une méthode du store:
