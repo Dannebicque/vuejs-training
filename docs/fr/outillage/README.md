@@ -85,6 +85,35 @@ cd search-films
 npm install
 ```
 
+### Quelques mots sur les outils installés
+
+#### Vitest
+
+[Vitest](https://vitest.dev/) est un outil de test unitaire pour Vue.js. Vitest est préconfiguré pour fonctionner avec Vue.js, et vous permet de tester vos composants Vue de manière simple et efficace. Vous pouvez lancer vos tests avec la commande `npm run test`.
+
+#### Cypress
+
+[Cypress](https://www.cypress.io/) est un outil de test d'interface utilisateur (e2e) pour les applications web. Il vous permet de tester votre application dans un navigateur réel, et de simuler des interactions utilisateur telles que le clic, le remplissage de formulaires, etc. Cypress est préconfiguré pour fonctionner avec Vue.js, et vous permet de tester vos composants Vue de manière simple et efficace. Vous pouvez lancer vos tests avec la commande `npm run test:e2e`.
+
+#### ESLint
+
+[ESLint](https://eslint.org/) est un outil de linting (style de code, qualité de code) pour JavaScript. Il permet de détecter et de corriger des erreurs de syntaxe, de style et de logique dans votre code. Il est très flexible et peut être configuré pour s'adapter à vos besoins.
+
+La configuration ESLint de ce projet est basée sur les recommandations de la communauté Vue.js. Vous pouvez consulter le fichier `.eslintrc.js` à la racine de votre projet pour voir les règles ESLint activées, ou encore ici [ESLint Vue.js](https://eslint.vuejs.org/rules/).
+
+#### Prettier
+
+[Prettier](https://prettier.io/) est un formateur de code qui vous permet de définir un style de code uniforme pour votre projet. Il est très utile pour éviter les discussions sans fin sur le style de code à adopter, et pour garantir que votre code est toujours bien formaté. Comme pour ESLint, vous pouvez configurer Prettier pour qu'il s'adapte à vos besoins. La configuration de Prettier pour ce projet est définie dans le fichier `.prettierrc` à la racine de votre projet.
+
+::: tip
+
+ESLint et Prettier peuvent être utilisés ensemble pour garantir que votre code est à la fois bien formaté et respecte les règles de style et de qualité définies. Vous pouvez également configurer votre éditeur de code pour qu'il applique automatiquement ces outils à votre code à chaque sauvegarde. Cela vous permet de vous concentrer sur l'écriture de code, et non sur sa mise en forme ou sa qualité.
+Une dépendance a été automatiquement installée pour faciliter l'intégration de Prettier avec ESLint. Vous pouvez consulter le fichier `.eslintrc.js` pour voir comment Prettier est intégré à ESLint ("@vue/eslint-config-prettier").
+
+:::
+
+L'ensemble de ces outils peuvent être intégrés à votre éditeur de code pour vous aider à écrire du code de qualité ou dans une CI/CD pour garantir la qualité de votre code avant de le déployer.
+
 ### Travailler en mode développeur
 
 Pour travailler sur l'application et la tester en direct, lancez la commande suivante :
