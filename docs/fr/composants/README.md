@@ -245,8 +245,11 @@ Pour récupérer une référence vers un élément ou un composant enfant dans u
 ```
 
 ```js
-vm.$refs.label // reference à l'élément paragraphe
-vm.$refs.enfant // reference à l'instance de ComposantEnfant
+import { useTemplateRef } from "vue";
+
+const enfant = useTemplateRef("enfant");
+
+enfant.value.focus();
 ```
 
 ## TP: Bien décomposer son application
@@ -263,33 +266,3 @@ vm.$refs.enfant // reference à l'instance de ComposantEnfant
 
 **Question** : *Pourquoi la vue ne se met-elle plus à jour alors que la liste semble être remplie correctement ?*
 
-### Propriétés d'instance de vue
-
-::: tip
-`vm` est souvent utilisé par convention comme référence à une instance de composant Vue.
-:::
-
-- `vm.$data`
-- `vm.$props`
-- `vm.$slots`
-- `vm.$refs`
-- `vm.$listeners`
-- `vm.$options` : les options passées au composant
-- `vm.$el` : référence à l'élément HTML racine sur lequel le composant est monté
-- `vm.$parent` : composant parent
-- `vm.$root` : composant racine
-- `vm.$children` : composants enfant
-
-### Méthodes d'instance de vue
-
-- `vm.$watch` : déclare programmatiquement un watcher
-- `vm.$set` : assigne une donnée en forçant la réactivité
-- `vm.$delete` : supprime une donnée en forçant la réactivité
-- `vm.$on` : déclare programmatiquement un listener
-- `vm.$once` : déclare un listener avec le modificateur once
-- `vm.$off` : supprime un listener
-- `vm.$emit` : émet un événement
-- `vm.$mount` : attache le composant à un élément du DOM
-- `vm.$destroy` : supprime l'instance de composant
-- `vm.$forceUpdate` : force la mise à jour complète du composant (à éviter)
-- `vm.$nextTick` : reporte l'exécution d'une fonction au prochain tick (boucle d'événements)
