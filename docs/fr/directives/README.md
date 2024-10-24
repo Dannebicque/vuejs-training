@@ -334,8 +334,8 @@ const monkeys =  ref([
         { hasEyesOpen: false }
       ])
 
-addMonkey(){
-  this.monkeys.value.push({ hasEyesOpen: false })
+const addMonkey = () => {
+  monkeys.value.push({ hasEyesOpen: false })
 }
 </script>
 ```
