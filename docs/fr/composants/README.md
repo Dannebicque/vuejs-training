@@ -36,7 +36,7 @@ Une propriété calculée est une donnée pouvant être calculée directement et
 
 Vue permet également de déclarer des observateurs pour exécuter une certaine fonction lorsqu'une propriété (prop, data ou computed) est mutée. On parle alors de **propriété observée** par un *watcher*. Les propriétés à observer sont à déclarer dans l'option `watch` du composant.
 
-```vue
+```javascript
   import { ref, computed, watch } from 'vue'
 
   const count1 = ref(0)
@@ -87,7 +87,7 @@ Vue travaille avec les composants suivant un schéma bien précis, de leur créa
 
 Chaque étape du cycle de vie d'un composant appelle deux fonctions callback, l'une juste avant que le framework intervienne, et l'autre juste après. On peut via ces callbacks définir un comportement spécifique pour le composant à ces moments précis :
 
-```vue
+```javascript
 import { onMounted, ref } from 'vue'
 
 const inputRef = ref(null)
@@ -113,7 +113,7 @@ Comme tout autre élément HTML, les composants Vue peuvent recevoir des argumen
 
 Vous devez déclarer dans l'option `props` du composant la liste des propriétés acceptées. Les props reçues peuvent être utilisées dans les templates ou les méthodes de la même manière que les `data`. La différence est que l'on évitera de réassigner ou muter des props : puisque ces valeurs proviennent du composant parent, il faut plutôt communiquer avec ce parent (*communication ascendante*) pour qu'il effectue lui-même le changement. La valeur changée sera alors automatiquement reportée sur les composants enfant.
 
-```vue{11}
+```vue{12}
 <!-- BlogPost.vue -->
 <template>
   <article>
@@ -244,7 +244,7 @@ Pour récupérer une référence vers un élément ou un composant enfant dans u
 <composant-enfant ref="enfant"></composant-enfant>
 ```
 
-```js
+```javascript
 import { useTemplateRef } from "vue";
 
 const enfant = useTemplateRef("enfant");

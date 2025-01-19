@@ -3,23 +3,16 @@
   <SearchFilm v-else />
 </template>
 
-<script>
+<script setup>
+import { ref } from "vue";
 import LoginForm from "./components/LoginForm.vue";
 import SearchFilm from "./components/SearchFilm.vue";
 
-export default {
-  name: "App",
-  components: { LoginForm, SearchFilm },
-  data(){
-    return {
-      loggedIn: false
-    }
-  },
-  methods: {
-    onLogin(){
-      this.loggedIn = true
-    }
-  }
+const loggedIn = ref(false)
+
+const onLogin = () => {
+  loggedIn.value = true
+
 }
 </script>
 

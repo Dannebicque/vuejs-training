@@ -28,13 +28,7 @@
 </div>
 </template>
 
-<script>
-export default {
-    name: "LoginForm",
-    data(){
-        return {
-            title: "Authentication"
-        }
-    }
-}
+<script setup>
+const title = "Authentication"
+
 </script>

@@ -30,21 +30,18 @@
 </div>
 </template>
 
-<script>
-export default {
-    name: "LoginForm",
-    emits: ["login"],
-    data(){
-        return {
-            title: "Authentication",
-            email: "",
-            password: ""
-        }
-    },
-    methods: {
-        login(){
-            this.$emit('login')
-        }
-    }
+<script setup>
+import { ref } from "vue";
+
+const emit = defineEmits(['login'])
+
+
+const title = "Authentication";
+const email = ref("");
+const password = ref("");
+
+const login = () => {
+  console.log("Login form submitted");
+  emit("login");
 }
 </script>
