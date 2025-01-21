@@ -12,6 +12,8 @@ Le routage d'une SPA est donc géré côté client, et l'équipe de Vue fournit 
   - par `hash` (monsite.com/**#**/page1)
   - ou par `history` (manipulation de l'historique en JS avec auto-fallback pour IE)
 
+La documentation complète se trouve ici : [https://router.vuejs.org/](https://router.vuejs.org/)
+
 ## Installation
 
 Si vous ne l'avez pas installé pendant la configuration initiale du projet, vous pouvez maintenant installer `vue-router` avec `npm`.
@@ -76,6 +78,7 @@ L'avantage de ce composant par rapport aux balises classiques `<a>` est que les 
 
 ```vue
 <router-link to="/home">Page d'accueil</router-link>
+<router-link :to="{ name: 'home'}">Page d'accueil (nommée)</router-link>
 <router-link :to="{ name: 'hello', params: { name: 'John' } }">
   Lien dynamique
 </router-link>
@@ -83,19 +86,26 @@ L'avantage de ce composant par rapport aux balises classiques `<a>` est que les 
 
 Le routeur dispose de méthodes pour naviguer programmatiquement entre les pages:
 
-```js
-router.go(-1); // aller à page précédente
+```javascript
+import { useRoute, useRouter } from 'vue-router'
 
-let nextId = router.currentRoute.params.id + 1; // récupérer les paramètres d'URL
+const router = useRouter() // le router global
+const route = useRoute() // la route en cours
+​
+// Pour récupérer un paramètre de l'URL
+let id = route.params.id //si un paramètre id est défini sur la route
+
+// récupérer la route courante
+let currentRoute = router.currentRoute.value
+
+router.push('/home'); // naviguer vers une nouvelle page
 router.push(`/article/${nextId}`); // naviguer vers une nouvelle page par URL
+
+router.replace('/home'); // remplacer la page actuelle
+
+router.go(-1); // aller à page précédente
 ```
 
-Grâce au plugin routeur, vous pouvez facilement récupérer une référence au routeur depuis tous vos composants:
-```js
-// depuis les options d'un composant
-this.$router // pointe vers l'instance du routeur
-this.$route // pointe vers router.currentRoute
-```
 
 ## TP: Implémentation du routeur
 
@@ -110,7 +120,7 @@ Par convention, on appelle les composants rattachés à des routes des _views_, 
 1. Ajoutez à la configuration des routes des redirections vers la route `/search` pour la route par défaut (`/`) et pour toutes les autres routes non reconnues ( `/:pathMatch(.*)*`) :
 
 
-```js
+```javascript
 {
   path: "/",
   redirect: "/search",
@@ -126,3 +136,37 @@ Par convention, on appelle les composants rattachés à des routes des _views_, 
 2. Naviguez programmatiquement vers la route `/search` après l'action de login, et vers la route `/login` après l'action de logout. Vérifiez que les transitions entre les pages et les changements d'URL fonctionnent correctement.
 
 3. **Bonus** : en utilisant les [Navigation Guards](https://router.vuejs.org/guide/advanced/navigation-guards.html) de vue-router, redirigez l'utilisateur voulant accéder à la page de recherche de films vers `/login` si l'utilisateur n'est pas authentifié.
+
+## Transitions
+
+Nous allons maintenant ajouter des transitions entre les différentes vues. Pour cela, nous allons utiliser les transitions de VueJs.
+VueJs propose nativement un mécanisme de transition entre les éléments. Pour cela, il suffit de déclarer une balise `<transition>` autour de l'élément que l'on veut animer. https://vuejs.org/guide/built-ins/transition.html
+
+Exemple (issue de la documentation) :
+
+```vue
+<button @click="show = !show">Toggle</button>
+<Transition>
+  <p v-if="show">hello</p>
+</Transition>
+```
+
+Et il faut ajouter le CSS associé :
+
+```css
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+```
+
+Ces classes sont automatiquements ajoutées par VueJs sur les éléments lors de l'ajout ou de la suppression de l'élément.
+
+## TP: Ajout de transitions
+
+1. Ajoutez une transition entre les différentes vues de votre application. Vous pouvez utiliser les transitions de votre choix, ou vous inspirer de la [liste des transitions](https://vuejs.org/guide/built-ins/transition.html) proposées par VueJs.
