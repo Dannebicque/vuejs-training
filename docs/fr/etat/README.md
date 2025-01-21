@@ -17,7 +17,7 @@ Nous avons vu dans la section précédente comment communiquaient les composants
 
 La solution la plus simple au problème de gestion d'état est de stocker les données au sein d'un ou plusieurs objets déclarés dans leur propre module. Tous les composants voulant manipuler ces données peuvent alors importer l'objet et modifier son contenu en travaillant sur la même référence.
 
-```js
+```javascript
 /** stores/state.js **/
 export const state = {
     user: null,
@@ -25,7 +25,7 @@ export const state = {
 }
 ```
 
-```js
+```javascript
 /** LoginForm.vue **/
 import state from "stores/state.js"
 import { reactive } from 'vue'
@@ -53,7 +53,7 @@ Cette solution peut faire l'affaire dans de nombreux cas, mais montre rapidement
 
 Un pattern un peu plus avancé est de déclarer un objet magasin (*store*) qui encapsule l'objet d'état et sert d'interface de contrôle. L'objet d'état n'est pas directement accessible de l'extérieur par référence, mais le store fournit des méthodes pour interagir avec : typiquement un getter/setter. On pourra ensuite ajouter dans ces méthodes des instructions de débogage, monitoring, mesure de performance etc.
 
-```js
+```javascript
 /** stores/store.js **/
 import { reactive } from 'vue'
 
@@ -124,7 +124,7 @@ npm install pinia pinia-plugin-persistedstate
 
 1. Créer un store Pinia en créant un fichier `src/stores/session.js` avec le contenu suivant :
 
-```js
+```javascript
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
@@ -149,9 +149,8 @@ export const useSession = defineStore('session', () => {
 
 3. Déclarez le store dans votre application en complétant le fichier `main.js` comme ceci :
 
-<VueVersionSwitch slot-key="app-store" />
 
-```js{8}
+```javascript{8}
 import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 
@@ -169,7 +168,7 @@ createApp(App)
 
 :::tip
 Invoquer une action depuis un composant se fait en l'appelant comme une méthode du store:
-```js
+```javascript
 const session = useSession()
 session.login({ user: { firstname: "John", lastname: "Smith" } });
 ```
