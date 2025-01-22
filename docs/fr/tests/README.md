@@ -25,6 +25,10 @@ Vitest et Cypress sont normalement déjà configurés sur votre projet de TP si 
 
 Pour plus d'informations et des choix alternatifs d'outillage, vous référer à la [documentation officielle](https://vuejs.org/guide/scaling-up/testing.html).
 
+## Cypress (tests e2e)
+
+- En vous aidant de la documentation installez Cypress, et configurer le pour qu'il puisse lancer les tests e2e de votre application. Les pages à tester sont le login (simulant une authentification) et la recherche de films, tester le cas où la recherche fonctionne, et ou aucun film n'est trouvé.
+
 ## Vue Test Utils
 
 Pour faciliter l'écriture de tests pour des composants Vue, l'équipe fournit également [Vue Test Utils](https://vue-test-utils.vuejs.org/), la bibliothèque officielle d'utilitaires de tests pour Vue.js. Elle est accompagnée d'un [guide détaillé](https://vue-test-utils.vuejs.org/) pour vous aider à mettre en place vos tests dans des configurations personnalisées.

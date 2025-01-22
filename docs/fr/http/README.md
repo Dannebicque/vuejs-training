@@ -30,7 +30,7 @@ Une fois le serveur démarré, le contrat d'interface du back-end est disponible
 1. Créer un service générique `services/api.js` permettant d'appeler le backend, avec ce contenu :
 
 ```js
-import { useSession } from '../stores/session.js'
+import { useSession } from '@/stores/session.js'
 
 export const BASE_URL = 'http://localhost:3030'
 
@@ -85,41 +85,46 @@ export default {
 
 3. Dans le composant `LoginForm`, ajoutez un second bouton pour s'inscrire à côté de celui pour se login, puis modifiez les méthodes de `LoginForm` pour appeler les méthodes du `UserService` :
 
-```js
+```javascript
+<script setup>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useSession } from '@/stores/session.js'
 import UserService from '@/services/UserService.js'
 
-export default {
-  methods: {
-    async register () {
-      this.error = null;
-      try {
-        const response = await UserService.register({
-          email: this.email,
-          password: this.password,
-          firstname: 'John',
-          lastname: 'Smith'
-        })
-        const session = useSession();
-        session.login({ user: response.user, token: response.token });
-        this.$router.push('/search')
-      } catch (error) {
-        this.error = error.toString()
-      }
-    },
+  const email = ref('')
+  const password = ref('')
+  const error = ref(null)
+  const router = useRouter()
+  const session = useSession()
 
-    async login () {
-      this.error = null;
-      try {
-        const response = await UserService.login({ email: this.email, password: this.password })
-        const session = useSession();
-        session.login({ user: response.user, token: response.token });
-        this.$router.push('/search')
-      } catch (error) {
-        this.error = error.toString()
-      }
+  const register = async () => {
+    error.value = null
+    try {
+      const response = await UserService.register({
+        email: email.value,
+        password: password.value,
+        firstname: 'John',
+        lastname: 'Smith'
+      })
+      session.login({ user: response.user, token: response.token })
+      router.push('/search')
+    } catch (err) {
+      error.value = err.toString()
     }
   }
-}
+
+  const login = async () => {
+    error.value = null
+    try {
+      const response = await UserService.login({ email: email.value, password: password.value })
+      session.login({ user: response.user, token: response.token })
+      router.push('/search')
+    } catch (err) {
+      error.value = err.toString()
+    }
+  }
+</script>
 ```
 
 4. Notez qu'en cas d'erreur, on stocke le message d'erreur retourné dans une variable `error`. Si ce n'est pas déjà fait, déclarez cette variable dans les `data` du composant et utilisez-là dans le template pour afficher le message d'erreur en cas d'échec d'authentification.
