@@ -52,6 +52,7 @@ module.exports = {
 					"/fr/etat/",
 					"/fr/http/",
 					"/fr/tests/",
+					"/fr/projet/",
 					"/fr/ecosysteme/",
 				],
 			},

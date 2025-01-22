@@ -82,6 +82,8 @@ L'avantage de ce composant par rapport aux balises classiques `<a>` est que les 
 <router-link :to="{ name: 'hello', params: { name: 'John' } }">
   Lien dynamique
 </router-link>
+<router-link :to="`/home/${name}`">Page d'accueil</router-link>
+<router-link to="/home/toto">Page d'accueil</router-link>
 ```
 
 Le routeur dispose de méthodes pour naviguer programmatiquement entre les pages:

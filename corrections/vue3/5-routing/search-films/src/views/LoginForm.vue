@@ -31,33 +31,27 @@
 </div>
 </template>
 
-<script>
-import { useSession } from "../stores/session";
+<script setup>
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { useSession } from "@/stores/session";
 
-export default {
-    name: "LoginForm",
-    emits: ["login"],
-    data(){
-        return {
-            title: "Authentication",
-            email: "",
-            password: "",
-            error: ""
-        }
-    },
-    methods: {
-        login(){
-            this.error = null;
+const title = ref("Authentication");
+const email = ref("");
+const password = ref("");
+const error = ref("");
 
-            if(this.email === "test@test.com" && this.password === "test1234"){
-                const session = useSession();
-                session.login({ user: { firstname: "John", lastname: "Smith" } });
-                this.$emit('login')
-                this.$router.push('/search')
-            } else {
-                this.error = `Invalid credentials 😕`
-            }
-        }
-    }
+const router = useRouter();
+const session = useSession();
+
+function login() {
+  error.value = null;
+
+  if (email.value === "test@test.com" && password.value === "test1234") {
+    session.login({ user: { firstname: "John", lastname: "Smith" } });
+    router.push('/search');
+  } else {
+    error.value = `Invalid credentials 😕`;
+  }
 }
 </script>
