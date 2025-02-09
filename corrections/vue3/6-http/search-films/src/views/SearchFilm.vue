@@ -13,36 +13,22 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref, computed, onMounted, watch } from 'vue';
 import Film from "../components/Film.vue";
 import FilmService from "../services/FilmService";
 
-export default {
-    name: "SearchFilm",
-    components: { Film },
-    data(){
-        return {
-            films: [],
-            query: ""
-        }
-    },
-    computed: {
-        numberResults(){
-            return this.films.length
-        }
-    },
-    mounted(){
-        this.$refs.search.focus()
-    },
-    watch: {
-        query(){
-            this.films = []
-        }
-    },
-    methods: {
-        async searchFilms(){
-            this.films = await FilmService.search(this.query)
-        }
-    }
-}
+const query = ref('');
+const films = ref([]);
+
+const numberResults = computed(() => films.value.length);
+
+const searchFilms = async () => {
+    films.value = await FilmService.search(query.value);
+};
+
+
+watch(query, async () => {
+    films.value = await FilmService.search(query.value);
+});
 </script>

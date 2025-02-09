@@ -1,24 +1,28 @@
 import { defineStore } from "pinia";
+import { ref } from 'vue';
 
-export const useSession = defineStore('session', {
-  persist: true,
-  state: () => {
-    return {
-      user: null,
-      token: null,
-      loggedIn: false      
-    }
-  },
-  actions: {
-    login({ user, token }) {
-      this.loggedIn = true
-      this.user = user
-      this.token = token
-    },
-    logout(){
-      this.loggedIn = false
-      this.user = null
-      this.token = null
-    }
+export const useSession = defineStore('session', () => {
+  const user = ref(null);
+  const token = ref(null);
+  const loggedIn = ref(false);
+
+  function login({ user: newUser, token: newToken }) {
+    loggedIn.value = true;
+    user.value = newUser;
+    token.value = newToken;
   }
-})
+
+  function logout() {
+    loggedIn.value = false;
+    user.value = null;
+    token.value = null;
+  }
+
+  return {
+    user,
+    token,
+    loggedIn,
+    login,
+    logout
+  };
+});

@@ -22,3 +22,7 @@ Cette application devrait inclure les fonctionnalités suivantes :
 La partie esthétique du site n'est pas évaluée, mais il est attendu que l'interface soit fonctionnelle et agréable à utiliser. Vous pouvez utiliser un framework CSS comme Bootstrap ou TailwindCSS pour vous aider, ou des outils comme Vuetify, PrimeVue, etc.
 
 **Le travail est individuel et raisonnablement il y a suffisament de façon d'imaginer les interfaces (et de thématique pour votre contenu) pour que vos codes/projets ne se ressemblent pas trop...**
+
+## Rendu
+
+Le rendu de ce projet est un dépôt Git contenant l'ensemble du code source de l'application Vue.js, ainsi qu'un fichier README.md expliquant comment installer et lancer l'application, et **votre nom**
