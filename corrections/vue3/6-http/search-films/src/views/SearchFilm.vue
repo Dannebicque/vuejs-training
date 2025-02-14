@@ -1,5 +1,6 @@
 <template>
   <div id="search-film">
+    <h1>Search Films</h1>
     <form @submit.prevent="searchFilms">
       <label for="search">Search :</label>
       <input id="search" type="text" ref="search" v-model="query" />
