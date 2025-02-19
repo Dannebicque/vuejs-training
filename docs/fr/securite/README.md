@@ -4,7 +4,7 @@
 
 ### Introduction et JWT
 
-JWT (Json Web Token) (https://jwt.io/) est un standard ouvert (RFC 7519) qui définit une manière compacte et autonome pour sécuriser les échanges de données entre plusieurs parties. Ces données sont sous forme de JSON et peuvent être vérifiées et validées car elles sont signées numériquement. Les JWT peuvent être signés à l'aide d'un secret (avec l'algorithme HMAC) ou d'une paire de clés publique/privée à l'aide de RSA ou ECDSA.
+JWT (Json Web Token) (<https://jwt.io/>) est un standard ouvert (RFC 7519) qui définit une manière compacte et autonome pour sécuriser les échanges de données entre plusieurs parties. Ces données sont sous forme de JSON et peuvent être vérifiées et validées car elles sont signées numériquement. Les JWT peuvent être signés à l'aide d'un secret (avec l'algorithme HMAC) ou d'une paire de clés publique/privée à l'aide de RSA ou ECDSA.
 
 L'interet d'utiliser un token JWT est de sécuriser l'échange de données entre le front et le back. Le token est généré par le serveur après une authentification réussie et est ensuite envoyé au client. Le client doit ensuite envoyer ce token à chaque requête pour prouver son identité.
 
