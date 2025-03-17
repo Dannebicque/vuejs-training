@@ -25,4 +25,8 @@ La partie esthétique du site n'est pas évaluée, mais il est attendu que l'int
 
 ## Rendu
 
-Le rendu de ce projet est un dépôt Git contenant l'ensemble du code source de l'application Vue.js, ainsi qu'un fichier README.md expliquant comment installer et lancer l'application, et **votre nom**
+Le rendu de ce projet est un dépôt Git contenant l'ensemble du code source de l'application Vue.js (**ainsi que le lien vers le dépôt back utilisé**), ainsi qu'un fichier README.md expliquant comment installer et lancer l'application, et **votre nom**.
+
+Vous m'ajoutez en tant que collaborateur sur le dépôt (privé ou public à votre convenance) pour que je puisse le cloner et le tester. Mon identifiant GitHub est `dannebicque`.
+
+La date limite est fixée au **28 mars 2025, 23h59**.
