@@ -30,3 +30,14 @@ Le rendu de ce projet est un dépôt Git contenant l'ensemble du code source de 
 Vous m'ajoutez en tant que collaborateur sur le dépôt (privé ou public à votre convenance) pour que je puisse le cloner et le tester. Mon identifiant GitHub est `dannebicque`.
 
 La date limite est fixée au **28 mars 2025, 23h59**.
+
+## Barème
+
+- Tests cypress : 5
+- Affichage des contenus publics + commentaires : 3
+- Connexion, inscription, déconnexion, ... : 3
+- Uploads : 2
+- Recherche : 3
+- Esthétique, mise en page, UX : 2
+- Respect des consignes : 2
+- Back-office : 2
