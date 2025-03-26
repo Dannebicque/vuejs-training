@@ -40,4 +40,4 @@ La date limite est fixée au **28 mars 2025, 23h59**.
 - Recherche : 3
 - Esthétique, mise en page, UX : 2
 - Respect des consignes : 2
-- Back-office : 2
+- Back-office/partie administration : 2
